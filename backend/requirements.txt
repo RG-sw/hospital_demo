@@ -5,3 +5,6 @@ sqlalchemy
 postgres
 websockets==10.0
 python-multipart==0.0.5
+python-jose[cryptography]
+bcrypt
+"passlib[bcrypt]"
