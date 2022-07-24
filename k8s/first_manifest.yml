@@ -1,0 +1,29 @@
+# routine for using local docker images with minikube
+# https://stackoverflow.com/questions/42564058/how-to-use-local-docker-images-with-minikube
+# to load a local image in the minikube docker deamon
+# minikube image load image_name:tag
+#  kubectl expose deployment/pg-pod-v15
+
+# remember to run minikube tunnel in a separate terminal
+
+# https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pg-pod-v15
+spec:
+  selector:
+    matchLabels:
+      app: pg-pod-v15
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pg-pod-v15
+    spec:
+      containers:
+      - name: pg-container
+        image: postgres_db_v2:latest
+        ports:
+        - containerPort: 5432
+        imagePullPolicy: Never  # to use a loclal docker image

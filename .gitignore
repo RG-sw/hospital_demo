@@ -1,0 +1,9 @@
+# remove cfg files
+*.cfg
+# remove python virtual env folders
+__pycache__/
+bin/
+include/
+lib/
+lib64/
+share/
