@@ -19,9 +19,22 @@ app = FastAPI()
 
 models.Base.metadata.create_all(bind=engine)
 
+# to allow frontend from different hosts, protocols, ecc..
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8080", "http://127.0.0.1:8080", 'http://127.0.0.1:3000'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 SECRET_KEY = 'f29960e83d12aa467c08329a283d64463e95f33a61d0eed11a13607062df5d69'
 ALGORITHM = "HS256"
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
 
 def get_db():
     db = SessionLocal()
@@ -56,7 +69,7 @@ def update_item(item_id: int, item: schemas.SomeTable):
     return {"item": item, "item_id": item_id}
 
 
-@app.post("/token")
+@app.post("/token", response_model=Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(fake_users_db, form_data.username, form_data.password)
     if not user:
@@ -84,10 +97,6 @@ def get_user(db, username: str):
 def verify_password(plain_password, hashed_password):
     ret = bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password)
     return ret
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
 
 def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
     to_encode = data.copy()
