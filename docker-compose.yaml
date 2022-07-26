@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+
+  frontend:
+    image: js-frontend
+    ports:
+      - "3000:3000"
+    
+  databse:
+    image: hospital-pg
+    ports:
+      - "5432:5432"
+
+  backend:
+    image: fast-api-backend
+    network_mode: host
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
