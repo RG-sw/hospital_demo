@@ -8,6 +8,9 @@ from pydantic import BaseModel
 class PatientBase(BaseModel):
     pass
 
+class PatientCreate(PatientBase):
+    ssn: str
+
 class Patient(PatientBase):
     name: str
     surname: str

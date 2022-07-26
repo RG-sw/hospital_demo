@@ -11,8 +11,6 @@ from database import SessionLocal, engine
 from auth_utils import Token, authenticate_user, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 
 
-
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI()
 
@@ -42,13 +40,30 @@ async def get_data(websocket: WebSocket):
     
 @app.get("/patient/{ssn}", response_model=schemas.Patient)
 def read_patient(ssn: str, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
-    user = crud.get_patient(db, ssn)
-    print("inside main", user)
+    user = crud.read_patient(db, ssn)
     return user
 
-# @app.get("/")
-# def read_root():
-#     return {"Hello": "World"}
+@app.post("/patient/{ssn}")
+def create_patient(ssn: str,
+                db: Session = Depends(get_db), 
+                token: str = Depends(oauth2_scheme)):
+
+    db_patient = crud.read_patient(db, ssn)
+    if db_patient:
+        raise HTTPException(status_code=400, detail="patient already registered")
+    return crud.create_patient(db, ssn)
+
+@app.put("/patient/{ssn}")
+def update_patient_address(ssn: str, address: str, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    crud.update_patient_address(db, ssn, address)
+
+@app.delete("/patient/{ssn}")
+def delete_patient(ssn: str, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    crud.delete_patient(db, ssn)
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
 
 @app.post("/token", response_model=Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
