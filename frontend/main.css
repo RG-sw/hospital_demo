@@ -23,8 +23,8 @@ html {
     box-shadow: 0px 0px 5px 2px black;
   }
 
-  #demo-button-holder {
-    width: 90%;
+  #demo-holder {
+    width: 80%;
     height: 90%;
     display: grid;
     justify-items: center;
@@ -59,18 +59,18 @@ html {
     display: block;
   }
   
-  #login-form {
+  .form {
     align-self: flex-start;
     display: grid;
     justify-items: center;
     align-items: center;
   }
   
-  .login-form-field::placeholder {
+  .form-field::placeholder {
     color: #3a3a3a;
   }
   
-  .login-form-field {
+  .form-field {
     border: none;
     border-bottom: 1px solid #3a3a3a;
     margin-bottom: 10px;
@@ -79,7 +79,7 @@ html {
     padding: 0px 0px 5px 5px;
   }
   
-  #login-form-submit {
+  .form-submit {
     width: 100%;
     padding: 7px;
     border: none;

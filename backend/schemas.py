@@ -1,19 +1,25 @@
+from codecs import charmap_build
+from datetime import date, datetime
 from typing import List, Union
 
 from pydantic import BaseModel
 
 
-class SomeTableBase(BaseModel):
+class PatientBase(BaseModel):
     pass
 
-class SomeTableCreate(SomeTableBase):
-    pass
+class PatientCreate(PatientBase):
+    ssn: str
 
-class SomeTable(SomeTableBase):
-    id: int
-    int_col: int
-    str_col: str
-    bool_col: bool
+class Patient(PatientBase):
+    name: str
+    surname: str
+    ssn: str
+    birth_date: date
+    address: str
+    sex: str
+    blood_type: str
+    building: int
 
     class Config:
         orm_mode = True

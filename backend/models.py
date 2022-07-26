@@ -1,13 +1,16 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date
 from sqlalchemy.orm import relationship
 
 from database import Base
 
+class PatientTable(Base):
+    __tablename__ = "patient"
 
-class SomeTable(Base):
-    __tablename__ = "some_table"
-
-    id = Column(Integer, primary_key=True, index=True)
-    int_col = Column(Integer, unique=True, index=True)
-    str_col = Column(String, unique=True, index=True)
-    bool_col = Column(Boolean, unique=True, index=True)
+    name = Column(String, unique=True, index=True)
+    surname = Column(String, unique=True, index=True)
+    ssn = Column(String, primary_key=True, index=True)
+    birth_date = Column(Date, unique=True, index=True)
+    address = Column(String, unique=True, index=True)
+    sex = Column(String, unique=True, index=True)
+    blood_type = Column(String, unique=True, index=True)
+    building = Column(Integer, unique=False, index=True)
